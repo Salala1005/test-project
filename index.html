@@ -1,68 +1,138 @@
 <!DOCTYPE html>
 <html lang="en-gb">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./assets/styles/reset.css" />
+    <!-- Bootstrap link -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css"
+    />
+    <title>Weather Dashboard</title>
+  </head>
 
-<head>
-  <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests" />
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <link rel="stylesheet" href="./assets/styles/reset.css" />
-  <!-- Bootstrap link -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" />
-  <title>Weather Dashboard</title>
-</head>
+  <body>
+    <header
+      class="container-fluid text-center text-white bg-dark p-2 weather-header"
+    >
+      <h1>Weather Dashboard</h1>
+    </header>
 
-<body>
-  <header class="container-fluid text-center text-white bg-dark p-2 weather-header">
-    <h1>Weather Dashboard</h1>
-  </header>
-
-  <!-- max-width for ultra wide resolutions -->
-  <div class="container-fluid" style="max-width: 1400px">
-    <div class="row">
-      <aside class="col-lg-3 pb-3">
-        <h2 id="form-heading" class="mt-1 h3 form-label">
-          Search for a City:
-        </h2>
-        <form id="search-form" class="form">
-          <div class="form-inline form-group">
+    <!-- max-width for ultra wide resolutions -->
+    <div class="container-fluid" style="max-width: 1400px">
+      <div class="row">
+        <aside class="col-lg-3 pb-3">
+          <h2 id="form-heading" class="mt-1 h3 form-label">
+            Search for a City:
+          </h2>
+          <form id="search-form" class="form">
             <div class="input-group">
-              <input class="form-input m-2 col-lg-11 rounded" type="text" id="search-input" placeholder="London"
-                aria-labelledby="form-heading" aria-controls="today forecast" />
-              <div class="input-group-append col-lg-10">
-                <button type="submit" class="btn btn-primary gap-2 m-3 col-lg-12" id="search-button" aria-label="submit search">
+              <select
+                class="form-select"
+                id="search-input"
+                aria-labelledby="form-heading"
+                aria-controls="today forecast"
+              >
+                <option selected>Choose a country...</option>
+                <option value="kr">Korea</option>
+                <option value="jp">Japan</option>
+                <option value="us">United States</option>
+                <option value="ua">UKRAINE</option>
+                <option value="hk">HONG KONG</option>
+                <option value="ca">CANADA</option>
+                <option value="ph">PHILIPPINES</option>
+              </select>
+              <div class="input-group-append">
+                <button
+                  type="submit"
+                  class="btn btn-primary d-grid gap-2"
+                  id="search-button"
+                  aria-label="submit search"
+                >
                   Search
                 </button>
+                <hr class="hr weather" />
+              </div>
+            </div>
+          </form>
+          <div class="list-group" id="history"></div>
+        </aside>
+
+        <div class="col-lg-9 pb-3">
+          <section
+            id="today"
+            class="mt-3 card m-3 display"
+            role="region"
+            aria-live="polite"
+          >
+            <!-- <div class="col-lg-11 card m-3 d-none" id="today-weather"> -->
+          </section>
+          <section
+            id="forecast"
+            class="row m-3"
+            role="region"
+            aria-live="polite"
+          >
+            <!-- <div class="col-12 display"> -->
+            <h3>5-Day Forecast</h3>
+            <div class="row">
+              <div class="card col-12" style="width: 18rem"></div>
+            </div>
+          </section>
+          <div
+            class="modal fade"
+            id="newsModal"
+            tabindex="-1"
+            aria-labelledby="newsModalLabel"
+            aria-hidden="true"
+          >
+            <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="newsModalLabel">News</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="Close"
+                  ></button>
+                </div>
+                <div class="modal-body" id="news-modal-content">
+                  <!-- 뉴스 내용이 여기에 삽입됩니다 -->
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    data-bs-dismiss="modal"
+                  >
+                    Close
+                  </button>
+                </div>
               </div>
             </div>
           </div>
-        </form>
-        <div class="list-group" id="history"></div>
-      </aside>
-
-      <div class="col-lg-9 pb-3">
-        <section id="today" class="mt-3 card m-3 display" role="region" aria-live="polite">
-        </section>
-        <section id="forecast" class="row m-3" role="region" aria-live="polite">
-          <!-- <div class="col-12 display"> -->
-            <h3>5-Day Forecast</h3>
-            <div class="row">
-              <div class="card col-12" style="width: 18rem;">
-              </div>
-          </div>
-        </section>
+        </div>
       </div>
     </div>
-  </div>
 
-
-  <!-- Day.js -->
-  <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
-  <!-- jQuery -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-  <script src="./assets/script.js"></script>
-</body>
-
+    <!-- Day.js -->
+    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
+    <!-- jQuery -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="./assets/script.js"></script>
+  </body>
 </html>
